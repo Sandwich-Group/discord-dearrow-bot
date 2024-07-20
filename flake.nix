@@ -14,6 +14,11 @@
       let
         overlays = [ (import rust-overlay) ];
         pkgs = import nixpkgs { inherit system overlays; };
+        app = pkgs.rustPlatform.buildRustPackage {
+          name = "discord-dearrow-bot";
+          src = ./.;
+          cargoLock.lockFile = ./Cargo.lock;
+        };
       in with pkgs; rec {
         devShells.default = mkShell rec {
           nativeBuildInputs = [
@@ -25,5 +30,6 @@
           buildInputs = [];
           packages = [];
         };
+        packages.default = app;
       });
 }
