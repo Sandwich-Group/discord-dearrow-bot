@@ -2,7 +2,7 @@ mod dearrow;
 
 use regex_lite::Regex;
 use serenity::{
-    all::{GatewayIntents, Message},
+    all::{CreateAllowedMentions, CreateEmbed, CreateMessage, GatewayIntents, Message},
     async_trait,
     prelude::*,
 };
@@ -49,6 +49,7 @@ impl Handler {
 #[async_trait]
 impl EventHandler for Handler {
     async fn message(&self, ctx: Context, msg: Message) {
+        // Ignore bot or system messages to prevent false positives and infinite loops.
         if msg.author.bot || msg.author.system {
             return;
         }
@@ -73,9 +74,13 @@ impl EventHandler for Handler {
             };
 
             println!("Detected DeArrow title for {code}: {branding}");
-            let response_message = format!("{branding}");
 
-            if let Err(why) = msg.reply(&ctx.http, response_message).await {
+            let message = CreateMessage::new()
+                .embed(CreateEmbed::new().title(branding))
+                .allowed_mentions(CreateAllowedMentions::new())
+                .reference_message(&msg);
+
+            if let Err(why) = msg.channel_id.send_message(&ctx.http, message).await {
                 println!("Error sending message: {:?}", why);
             }
         }
