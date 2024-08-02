@@ -1,5 +1,7 @@
 # Discord DeArrow Bot
 
+[![Docker Hub badge](https://img.shields.io/badge/Docker%20Hub-hollyhacker%2Fdiscord--dearrow--bot-blue)](https://hub.docker.com/r/hollyhacker/discord-dearrow-bot)
+
 A simple Discord bot to respond with DeArrow titles, if it finds any.
 
 ![image](https://github.com/user-attachments/assets/790f67b8-cd91-4bd3-a935-78676874fbfc)
@@ -22,6 +24,9 @@ $ nix build .#dockerImageStreaming
 $ ./result | docker load
 $ docker run --rm -it -e DISCORD_TOKEN="$DISCORD_TOKEN" discord-dearrow-bot
 ```
+
+Alternatively, use the docker image on Docker Hub: [hollyhacker/discord-dearrow-bot](https://hub.docker.com/r/hollyhacker/discord-dearrow-bot).
+For now, this image is manually updated so it may be out of date.
 
 ## License
 
